@@ -5,11 +5,23 @@ from .models import Task
 
 
 class TaskAdmin(admin.ModelAdmin):
-    fields = (('title', 'date_of_creation'), 'description', ('deadline', 'date_of_completion'), ('status', 'owner'))
-    readonly_fields = ('date_of_creation', 'date_of_completion', 'owner')
-    list_display = ('title', 'date_of_creation', 'deadline', 'date_of_completion', 'status')
+    fields = (('title', 'date_of_creation'), 'description', ('deadline', 'view_date_of_completion'), ('status',))
+    readonly_fields = ('date_of_creation', 'view_date_of_completion')
+    list_display = ('title', 'date_of_creation', 'deadline', 'view_date_of_completion', 'status')
     list_editable = ('deadline', 'status')
     search_fields = ('title',)
+    
+    def view_date_of_completion(self, obj):
+        if obj.date_of_completion:
+            return obj.date_of_completion
+        else:
+            return 'Ожидает выполнения'
+        
+    view_date_of_completion.short_description = 'Дата выполнения'
+    
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(owner=request.user)
     
     def save_model(self, request, obj, form, change):
         obj.owner = request.user

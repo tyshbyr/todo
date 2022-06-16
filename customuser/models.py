@@ -1,33 +1,45 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.utils.translation import gettext_lazy as _
 
 from .managers import UserManager
 
 
-class User(AbstractBaseUser):
-    email = models.EmailField(verbose_name='Имейл', max_length=255, unique=True)
-    password = models.CharField(verbose_name='Пароль', max_length=128)
-    is_active = models.BooleanField(verbose_name='Активный', default=True)
-    is_admin = models.BooleanField(default=False, verbose_name='Админ')
+LIST_MODULE_PERM = ['customuser', 'todo']
+LIST_PERM = ['customuser.view_user', 'customuser.delete_user', 'todo.view_task',
+                        'todo.add_task', 'todo.change_task', 'todo.delete_task']
+
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(_("email address"), unique=True)
+    is_staff = models.BooleanField(
+        _("staff status"),
+        default=True,
+        help_text=_("Designates whether the user can log into this admin site."),
+    )
+    is_active = models.BooleanField(
+        _("active"),
+        default=True,
+        help_text=_(
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
+        ),
+    )
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
-    def __str__(self):
-        return self.email
-
-    def has_perm(self, perm, obj=None):
-        return True
+    def has_perm(self, perm):
+        if self.is_active and self.is_superuser:
+            return True
+        return perm in LIST_PERM
 
     def has_module_perms(self, app_label):
-        return True
-
-    @property
-    def is_staff(self):
-        return self.is_admin
-    
+        if self.is_active and self.is_superuser:
+            return True
+        return app_label in LIST_MODULE_PERM
+        
     class Meta:
-        verbose_name = 'Аккаунт'
-        verbose_name_plural = 'Аккаунты'
+        verbose_name = _("user")
+        verbose_name_plural = _("users")
