@@ -1,0 +1,39 @@
+.navbar {
+    margin-bottom: 50px;
+}
+
+body, a {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+input, optgroup, select, textarea  {
+    font-family: 'Ubuntu', sans-serif;
+    border: 0;
+    border-radius: 5px;
+}
+
+body {
+    background-color: #e7f3ff;
+}
+
+input#id_title, textarea#id_description {
+    width: 100%;
+}
+
+input#id_deadline {
+    max-width: 176px;
+}
+
+input#id_title {
+    color: #343434;
+}
+
+.input-group-text {
+    height: 38px;
+}
+
+option {
+    color: black;
+    background-color: white;
+}
+

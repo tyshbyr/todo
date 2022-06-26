@@ -1,0 +1,21 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+<div class="container">
+    <form method="post">{% csrf_token %}
+        Название
+        <h1>{{ form.title }}</h1>
+        Дополнительная информация
+        <p>{{ form.description }}</p>
+        {% if object %}<p>Дата создания: {{ object.date_of_creation }}</p>{% endif %}
+        <p>Крайний срок {{ form.deadline }}</p>
+        {% if object.date_of_completion %}<p>Дата выполнения: {{ object.date_of_completion }}</p>{% endif %}
+        <p>Статус: {{ form.status }}</p>
+        <input type="submit" class="btn btn-success" value="Сохранить изменения">
+        {% if object %}
+            <a href="{% url 'todo:delete' object.id %}" class="btn btn-danger">Удалить задачу</a>
+        {% endif %}
+    </form>
+</div>
+
+{% endblock content %}
