@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
-from customuser.models import User
+from accounts.models import User
 
 
 class Task(models.Model):
@@ -17,7 +17,7 @@ class Task(models.Model):
     status = models.CharField(choices=STATUS_CHOICES, verbose_name='Статус выполнения', default='Waiting', max_length=35)
 
     def short_description(self):
-        return self.description[:30]
+        return self.description[:100]
     
     def get_absolute_url(self):
         return reverse("todo:update", kwargs={"pk": self.pk})

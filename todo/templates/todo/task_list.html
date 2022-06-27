@@ -14,8 +14,8 @@
                         <small class="text-muted">Крайний срок: {{ object.deadline }}</small>
                     </div>
                     <div class="d-flex w-100 justify-content-between">
-                        <span class="badge bg-primary rounded-pill">{{ object.get_status_display }}</span>
-                        <small class="text-muted">Дата завершения: {{ object.date_of_completion }}</small>
+                        <span class="badge bg-{% if object.status == 'Waiting' %}primary{% elif object.status == 'In progress' %}warning{% else %}success{% endif %} rounded-pill">{{ object.get_status_display }}</span>
+                        <small class="text-muted">Завершена: {{ object.date_of_completion }}</small>
                     </div>
                 </a>
             {% endfor %}

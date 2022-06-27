@@ -11,6 +11,7 @@ class TaskMixinView:
 
 class TaskListView(TaskMixinView, ListView):
     model = Task
+    ordering = '-date_of_creation'
 
 class TaskUpdateView(TaskMixinView, UpdateView):
     form_class = TaskForm

@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'todo',
-    'customuser',
+    'accounts',
     'tempus_dominus',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -129,6 +129,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'customuser.User'
+AUTH_USER_MODEL = 'accounts.User'
 
 TEMPUS_DOMINUS_LOCALIZE = True

@@ -5,8 +5,8 @@ from django.utils.translation import gettext_lazy as _
 from .managers import UserManager
 
 
-LIST_MODULE_PERM = ['customuser', 'todo']
-LIST_PERM = ['customuser.view_user', 'customuser.delete_user', 'todo.view_task',
+LIST_MODULE_PERM = ['accounts', 'todo']
+LIST_PERM = ['accounts.view_user', 'accounts.delete_user', 'todo.view_task',
                         'todo.add_task', 'todo.change_task', 'todo.delete_task']
 
 class User(AbstractBaseUser, PermissionsMixin):
