@@ -9,7 +9,10 @@
             </li>
           {% endif %}
         </ul>
-        {{ request.user.email }}
+        {{ user.get_username }}
+        {% if user.id %}
+          <a class="btn" href="{% url 'logout' %}">Выйти</a>
+        {% endif %}
       </div>
     </div>
   </nav>

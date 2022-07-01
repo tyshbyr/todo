@@ -19,6 +19,12 @@
                     </div>
                 </a>
             {% endfor %}
+            {% if not object_list %}
+                <h1 class="mx-auto">У вас сейчас нет ни одной задачи &#128577;</h1>
+                <div class="d-grid col-6 mx-auto">
+                    <a href="{% url 'todo:create' %}" class="btn btn-success btn-lg">Создать задачу</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 
