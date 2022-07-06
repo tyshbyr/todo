@@ -15,7 +15,7 @@
 {% endfor %}
 {% endif %}
 
-<div id="content-main">
+<div class="container" id="content-main">
 
 {% if user.is_authenticated %}
 <p class="errornote">
@@ -23,22 +23,29 @@
 </p>
 {% endif %}
 
+<h3>Авторизация</h3>
+<p>Чтобы войти в свой аккаунт заполните необходимые поля и нажмите "Войти"</p>
+
 <form method="post" id="login-form">{% csrf_token %}
   <div class="form-row">
     {{ form.username.errors }}
-    {{ form.username.label_tag }} {{ form.username }}
+    {{ form.username.label_tag }}
+    <p>{{ form.username }}</p>
   </div>
   <div class="form-row">
     {{ form.password.errors }}
-    {{ form.password.label_tag }} {{ form.password }}
+    {{ form.password.label_tag }}
+    <p>{{ form.password }}</p>
   </div>
   <div class="password-reset-link">
-    <a href="{% url 'password_reset' %}">{% translate 'Forgotten your password or username?' %}</a>
+    <a href="{% url 'password_reset' %}">Забыли пароль?</a>
   </div>
   <div class="submit-row">
-    <input type="submit" value="{% translate 'Log in' %}">
+    <input type="submit" class="btn btn-success" value="{% translate 'Log in' %}">
   </div>
 </form>
+У вас еще нет аккаунта?
+<a href="{% url 'accounts:user_create' %}">Зарегистрироваться</a>
 
 </div>
 {% endblock %}

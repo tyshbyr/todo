@@ -1,13 +1,14 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 from .models import Task
 from .forms import TaskForm
 
 
-class TaskMixinView:
+class TaskMixinView(LoginRequiredMixin):
     def get_queryset(self):
-        return super().get_queryset().filter(owner=self.request.user)
+            return super().get_queryset().filter(owner=self.request.user)
 
 class TaskListView(TaskMixinView, ListView):
     model = Task
@@ -17,7 +18,7 @@ class TaskUpdateView(TaskMixinView, UpdateView):
     form_class = TaskForm
     model = Task
 
-class TaskCreateView(CreateView):
+class TaskCreateView(TaskMixinView, CreateView):
     form_class = TaskForm
     model = Task
     
@@ -29,4 +30,3 @@ class TaskCreateView(CreateView):
 class TaskDeleteView(TaskMixinView, DeleteView):
     model = Task
     success_url = reverse_lazy('todo:list')
-    

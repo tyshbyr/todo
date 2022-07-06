@@ -1,0 +1,12 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+<div class="container">
+{{ result }}
+{% if activation_success %}
+<a href="{% url 'login' %}">Войти</a>
+{% endif %}
+</div>
+
+{% endblock content %}

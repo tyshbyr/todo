@@ -1,0 +1,5 @@
+{% autoescape off %}  
+Привет {{ user.get_username }},  
+Для подтверждения регистрации перейдите по ссылке,  
+{{ protocol }}://{{ domain }}{% url 'accounts:user_activate' uidb64=uid token=token %}  
+{% endautoescape %} 
