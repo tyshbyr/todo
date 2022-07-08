@@ -1,15 +1,21 @@
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, DeleteView, DetailView
 from django.contrib.sites.shortcuts import get_current_site
 from django.template import loader
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.urls import reverse_lazy
 from django.core.mail import EmailMessage
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import User
 from .forms import UserCreationForm
 from .tokens import account_activation_token
 
+
+class UserMixin(LoginRequiredMixin):
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(email=self.request.user)
 
 class UserCreateView(CreateView):
     form_class = UserCreationForm
@@ -20,6 +26,7 @@ class UserCreateView(CreateView):
     def form_valid(self, form):
         user = form.save(commit=False)
         user.is_active = False
+        user.is_staff = False
         user.save()      
         use_https = self.request.is_secure(),
         current_site = get_current_site(self.request)  
@@ -60,3 +67,10 @@ class UserActivateView(TemplateView):
         else:
             context['result'] = 'Ссылка для активации недействительна!'
             return context
+
+class UserDetailView(UserMixin, DetailView):
+    model = User
+
+class UserDeleteView(UserMixin, DeleteView):
+    model = User
+    success_url = reverse_lazy('login')

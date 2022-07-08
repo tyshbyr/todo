@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+{% block content %}
+
+<div class="container">
+<form method="post">{% csrf_token %}
+    <h3>Вы уверены что хотите удалить аккаунт "{{ object }}"?</h3>
+    <p>В случае удаления, все ваши задачи будут удаленны!</p>
+    {{ form }}
+    <input type="submit" class="btn btn-danger" value="Удалить">
+    <a class='btn btn-success' href="{% url "accounts:user_detail" user.pk %}">Отменить</a>
+</form>
+</div>
+
+{% endblock content %}
